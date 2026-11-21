@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>정보 수정요청 · SFC 겨울대회 전국 현황</title>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f6fb;color:#172033;font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:-.012em}
+header{background:#cdb4df;padding:30px 20px;text-align:center}
+h1{margin:0;color:#073c88;font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.035em}
+header p{margin:8px 0 0;color:#48546a;font-weight:500}
+.site-tabs{display:flex;justify-content:center;gap:8px;margin:14px auto 0;flex-wrap:wrap}
+.site-tabs a{display:inline-flex;padding:9px 15px;border-radius:999px;border:1px solid #cfd9e7;background:#fff;color:#536173;text-decoration:none;font-size:13px;font-weight:700}
+.site-tabs a.active{background:#a62e48;color:#fff;border-color:#a62e48}
+main{max-width:720px;margin:24px auto 60px;padding:0 18px}
+.box{background:#fff;border:1px solid #e2e6ef;border-radius:22px;box-shadow:0 10px 28px rgba(31,49,79,.09);padding:26px 24px}
+.intro{font-size:14px;line-height:1.65;color:#48546a;margin:0 0 6px}
+.notice{margin:14px 0 4px;padding:11px 13px;border-radius:11px;background:#fff8e8;border:1px solid #f0dfb5;color:#75633b;font-size:13px;font-weight:600;line-height:1.5}
+.q{margin-top:22px}
+.q>label,.q>.label{display:block;font-size:15px;font-weight:750;color:#172033;margin-bottom:4px}
+.req{color:#e95d78;margin-left:3px}
+.help{font-size:12.5px;color:#687386;margin:0 0 9px;line-height:1.5}
+input[type=text],input[type=tel],textarea{width:100%;padding:12px 13px;border:1px solid #d3dbe7;border-radius:12px;font:inherit;font-size:15px;color:#172033;background:#fbfcfe;transition:.15s}
+textarea{min-height:130px;resize:vertical;line-height:1.55}
+input:focus,textarea:focus{outline:none;border-color:#7da5e8;background:#fff;box-shadow:0 0 0 3px #7da5e833}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;padding:9px 14px;border-radius:999px;border:1px solid #d3dbe7;background:#fff;font-size:14px;font-weight:600;color:#536173;cursor:pointer;transition:.15s;user-select:none}
+.chip input:checked+span{background:#073d8c;border-color:#073d8c;color:#fff}
+.chip input:focus-visible+span{box-shadow:0 0 0 3px #7da5e855}
+.err{display:none;color:#c0334f;font-size:12.5px;font-weight:600;margin-top:6px}
+.q.invalid .err{display:block}
+.q.invalid input[type=text],.q.invalid textarea{border-color:#e95d78}
+.actions{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:13px;font:inherit;font-size:15px;font-weight:750;cursor:pointer;text-decoration:none;transition:.18s;border:1px solid transparent}
+.btn.primary{flex:1;background:#073d8c;color:#fff}
+.btn.primary:hover{background:#0a4ba8}
+.btn.primary:disabled{background:#9aa9c0;cursor:wait}
+.btn.ghost{background:#f7faff;border-color:#c8d5e6;color:#073d8c}
+.btn.ghost:hover{background:#eaf2ff}
+.done{text-align:center;padding:40px 24px}
+.done .mark{width:64px;height:64px;border-radius:50%;background:#eaf6ee;color:#2f8a52;font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.done h2{margin:0 0 8px;font-size:22px;letter-spacing:-.03em}
+.done p{margin:0;color:#48546a;line-height:1.6;font-size:14px}
+.done .actions{justify-content:center}
+.fail{display:none;margin-top:14px;padding:11px 13px;border-radius:11px;background:#fff1f3;border:1px solid #f3c3cd;color:#a62e48;font-size:13px;font-weight:600;line-height:1.5}
+.hp{position:absolute;left:-9999px}
+</style></head>
+<body>
+<header>
+  <h1>정보 수정요청</h1>
+  <p>대회 정보가 바뀌었거나 틀린 곳이 있다면 알려 주세요</p>
+  <div class="site-tabs"><a href="index.html">대학생대회</a><a href="youth.html">중고생대회</a><a class="active" href="request.html">✎ 수정요청</a></div>
+</header>
+<main>
+  <section class="box" id="formBox">
+    <p class="intro">보내 주신 내용은 담당자가 확인한 뒤 사이트에 반영합니다. 카드의 <b>✎ 수정요청</b> 버튼으로 들어오셨다면 대회 정보가 미리 채워져 있어요.</p>
+    <div class="notice" id="notReady" hidden>지금은 접수 시스템을 연결하는 중이라 요청을 보낼 수 없습니다. 조금만 기다려 주세요!</div>
+
+    <form id="reqForm" novalidate>
+      <div class="q" data-q="type">
+        <div class="label">대회 구분<span class="req">*</span></div>
+        <div class="chips" role="radiogroup">
+          <label class="chip"><input type="radio" name="type" value="대학생대회"><span>대학생대회</span></label>
+          <label class="chip"><input type="radio" name="type" value="중고생대회"><span>중고생대회</span></label>
+        </div>
+        <div class="err">대회 구분을 선택해 주세요.</div>
+      </div>
+
+      <div class="q" data-q="event">
+        <label for="event">대회명<span class="req">*</span></label>
+        <p class="help">사이트 카드의 제목 그대로 적어 주세요. 새 대회라면 새 이름을 적어 주세요.</p>
+        <input type="text" id="event" name="event" list="eventList" autocomplete="off" placeholder="예) 충청U 겨울대학생대회">
+        <datalist id="eventList"></datalist>
+        <div class="err">대회명을 적어 주세요.</div>
+      </div>
+
+      <div class="q" data-q="items">
+        <div class="label">수정할 항목<span class="req">*</span></div>
+        <p class="help">해당하는 것을 모두 골라 주세요.</p>
+        <div class="chips" id="itemChips"></div>
+        <div class="err">수정할 항목을 하나 이상 골라 주세요.</div>
+      </div>
+
+      <div class="q" data-q="content">
+        <label for="content">수정 내용<span class="req">*</span></label>
+        <p class="help">‘현재 표기 → 바뀔 내용’ 형식으로 적어 주세요.<br>예) 입회비: 미정 → 선입 13만원 / 당일 14만원</p>
+        <textarea id="content" name="content"></textarea>
+        <div class="err">수정 내용을 적어 주세요.</div>
+      </div>
+
+      <div class="q" data-q="status">
+        <div class="label">확정 여부<span class="req">*</span></div>
+        <div class="chips" role="radiogroup">
+          <label class="chip"><input type="radio" name="status" value="확정된 정보"><span>확정된 정보</span></label>
+          <label class="chip"><input type="radio" name="status" value="예정(변동 가능)"><span>예정(변동 가능)</span></label>
+        </div>
+        <div class="err">확정 여부를 선택해 주세요.</div>
+      </div>
+
+      <div class="q" data-q="name">
+        <label for="name">요청자 이름<span class="req">*</span></label>
+        <input type="text" id="name" name="name" autocomplete="name">
+        <div class="err">이름을 적어 주세요.</div>
+      </div>
+
+      <div class="q" data-q="org">
+        <label for="org">소속·직분<span class="req">*</span></label>
+        <input type="text" id="org" name="org" placeholder="예) 경남U 간사, ○○교회 담당 교역자">
+        <div class="err">소속·직분을 적어 주세요.</div>
+      </div>
+
+      <div class="q" data-q="contact">
+        <label for="contact">연락처 <span class="help" style="display:inline">(선택)</span></label>
+        <p class="help">확인이 필요할 때만 연락드립니다.</p>
+        <input type="tel" id="contact" name="contact" autocomplete="tel" placeholder="010-0000-0000">
+      </div>
+
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="fail" id="fail">전송 중 문제가 생겼습니다. 인터넷 연결을 확인한 뒤 다시 눌러 주세요.</div>
+      <div class="actions">
+        <a class="btn ghost" id="backLink" href="index.html">← 현황으로</a>
+        <button class="btn primary" type="submit" id="submitBtn">요청 보내기</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="box done" id="doneBox" hidden>
+    <div class="mark">✓</div>
+    <h2>요청이 접수되었습니다</h2>
+    <p>담당자가 확인한 뒤 사이트에 반영하겠습니다.<br>함께 챙겨 주셔서 고맙습니다!</p>
+    <div class="actions">
+      <a class="btn ghost" id="backLink2" href="index.html">← 현황으로</a>
+      <button class="btn ghost" type="button" id="again">다른 요청 보내기</button>
+    </div>
+  </section>
+</main>
+
+<script src="edit-request.js"></script>
+<script>
+(function(){
+  var EVENTS = {
+    "대학생대회": ["수도권 SFC 겨울대학생대회","충청U 겨울대학생대회","전라권역U & 진주U 겨울대학생대회","대구경북U 겨울청년대학생대회","경동울산U 겨울대학생대회","경남U 겨울대학생대회","김해U 겨울대학생대회","부산&제주U-SFC 학원연합대회","강원U 대학생대회"],
+    "중고생대회": ["강원 중고생대회","경남 중고생대회","경남김해 중고생대회","경남남부 중고생대회","경남남마산·경남마산 연합 중고생대회","경남서부 중고생대회","경남중부 중고생대회","경남진주 중고생대회","경북동부 중고생대회","울산·울산남부 연합 중고생대회","경북서부·경북중부·대구동부 연합 중고생대회","대구서부 중고생대회","경기동부·경기중부·인천·경기서부 연합 중고생대회","경기북부 중고생대회","부산 중고생대회","부산남부 중고생대회","부산동부 중고생대회","부산서부 중고생대회","부산중부 중고생대회","서울남부·서울중부 연합 중고생대회","서울서부 중고생대회","전남동부·전라·전북 연합 중고생대회","제주 중고생대회","충청동부·충청서부 연합 중고생대회"]
+  };
+  var ITEMS = ["일시","장소","주강사","특강","입회비","담당 간사","Instagram 계정","새 대회 추가","그 밖의 항목"];
+
+  var F = window.EDIT_FORM || {action:"",entry:{}};
+  var ready = !!F.action;
+  var form = document.getElementById('reqForm');
+  var $ = function(s){return form.querySelector(s)};
+
+  // 항목 칩
+  var chipBox = document.getElementById('itemChips');
+  ITEMS.forEach(function(t){
+    chipBox.insertAdjacentHTML('beforeend','<label class="chip"><input type="checkbox" name="items" value="'+t+'"><span>'+t+'</span></label>');
+  });
+
+  // 대회명 자동완성 목록
+  var dl = document.getElementById('eventList');
+  function fillList(type){
+    var list = type ? EVENTS[type] : EVENTS["대학생대회"].concat(EVENTS["중고생대회"]);
+    dl.innerHTML = '';
+    (list||[]).forEach(function(n){var o=document.createElement('option');o.value=n;dl.appendChild(o);});
+  }
+  form.querySelectorAll('input[name=type]').forEach(function(r){r.addEventListener('change',function(){fillList(r.value)})});
+
+  // 주소로 넘어온 값 미리 채우기
+  var qs = new URLSearchParams(location.search);
+  var qType = qs.get('type'), qEvent = qs.get('event'), from = qs.get('from');
+  if (qType) { var r = $('input[name=type][value="'+qType+'"]'); if (r) r.checked = true; }
+  fillList(qType && EVENTS[qType] ? qType : null);
+  if (qEvent) $('#event').value = qEvent;
+  var back = (from === 'youth.html' || qType === '중고생대회') ? 'youth.html' : 'index.html';
+  document.getElementById('backLink').href = back;
+  document.getElementById('backLink2').href = back;
+
+  if (!ready) {
+    document.getElementById('notReady').hidden = false;
+  }
+
+  function val(name){
+    var el = form.elements[name];
+    if (!el) return '';
+    if (el instanceof RadioNodeList) { var c = form.querySelector('input[name='+name+']:checked'); return c ? c.value : ''; }
+    return (el.value||'').trim();
+  }
+  function checkedItems(){ return Array.prototype.map.call(form.querySelectorAll('input[name=items]:checked'),function(x){return x.value}); }
+
+  function validate(){
+    var ok = true, first = null;
+    var rules = {type:!!val('type'), event:!!val('event'), items:checkedItems().length>0, content:!!val('content'), status:!!val('status'), name:!!val('name'), org:!!val('org')};
+    Object.keys(rules).forEach(function(k){
+      var q = form.querySelector('.q[data-q='+k+']');
+      q.classList.toggle('invalid', !rules[k]);
+      if (!rules[k]) { ok = false; if (!first) first = q; }
+    });
+    if (first) first.scrollIntoView({behavior:'smooth',block:'center'});
+    return ok;
+  }
+  form.addEventListener('input', function(e){ var q = e.target.closest('.q'); if (q && q.classList.contains('invalid')) validate(); });
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    document.getElementById('fail').style.display = 'none';
+    if (!validate()) return;
+    if (!ready) { document.getElementById('notReady').scrollIntoView({behavior:'smooth',block:'center'}); return; }
+    if (form.elements.website.value) return; // 자동 스팸 차단
+
+    var e = F.entry, body = new URLSearchParams();
+    function add(key, v){ if (e[key] && v) body.append(e[key], v); }
+    add('type', val('type'));
+    add('event', val('event'));
+    checkedItems().forEach(function(v){ add('items', v); });
+    add('content', val('content'));
+    add('status', val('status'));
+    add('name', val('name'));
+    add('org', val('org'));
+    add('contact', val('contact'));
+
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = '보내는 중…';
+    fetch(F.action, {method:'POST', mode:'no-cors', body: body})
+      .then(function(){
+        document.getElementById('formBox').hidden = true;
+        document.getElementById('doneBox').hidden = false;
+        window.scrollTo({top:0,behavior:'smooth'});
+      })
+      .catch(function(){ document.getElementById('fail').style.display = 'block'; })
+      .then(function(){ btn.disabled = false; btn.textContent = '요청 보내기'; });
+  });
+
+  document.getElementById('again').addEventListener('click', function(){
+    form.reset(); fillList(null);
+    form.querySelectorAll('.q.invalid').forEach(function(q){q.classList.remove('invalid')});
+    document.getElementById('doneBox').hidden = true;
+    document.getElementById('formBox').hidden = false;
+    history.replaceState(null,'','request.html');
+  });
+})();
+</script>
+</body></html>
