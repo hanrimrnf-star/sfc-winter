@@ -8,15 +8,15 @@
  * action 이 비어 있으면 수정요청 페이지에 "연결 준비 중" 안내가 표시됩니다.
  */
 window.EDIT_FORM = {
-  action: "",
+  action: "https://docs.google.com/forms/d/e/1FAIpQLSe_QFgaxeugDmpHBOdPVlu_4rOO11T8HQbi-kucNWz7w17WKg/formResponse",
   entry: {
-    type: "",     // 1. 대회 구분 (대학생대회 / 중고생대회)
-    event: "",    // 2. 대회명
-    items: "",    // 3. 수정할 항목 (체크박스)
-    content: "",  // 4. 수정 내용
-    name: "",     // 5. 요청자 이름
-    org: "",      // 6. 소속·직분
-    contact: ""   // 7. 연락처
+    type: "entry.1518430851",     // 1. 대회 구분 (대학생대회 / 중고생대회)
+    event: "entry.989848309",    // 2. 대회명
+    items: "entry.334904292",    // 3. 수정할 항목 (체크박스)
+    content: "entry.2051203671",  // 4. 수정 내용
+    name: "entry.518665970",     // 5. 요청자 이름
+    org: "entry.1205004234",      // 6. 소속·직분
+    contact: "entry.616711385"   // 7. 연락처
   },
   otherIsInput: false  // '기타'가 폼에서 '기타(직접 입력)' 옵션이면 true
 };
