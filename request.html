@@ -89,14 +89,6 @@ input:focus,textarea:focus{outline:none;border-color:#7da5e8;background:#fff;box
         <div class="err">수정 내용을 적어 주세요.</div>
       </div>
 
-      <div class="q" data-q="status">
-        <div class="label">확정 여부<span class="req">*</span></div>
-        <div class="chips" role="radiogroup">
-          <label class="chip"><input type="radio" name="status" value="확정된 정보"><span>확정된 정보</span></label>
-          <label class="chip"><input type="radio" name="status" value="예정(변동 가능)"><span>예정(변동 가능)</span></label>
-        </div>
-        <div class="err">확정 여부를 선택해 주세요.</div>
-      </div>
 
       <div class="q" data-q="name">
         <label for="name">요청자 이름<span class="req">*</span></label>
@@ -144,7 +136,7 @@ input:focus,textarea:focus{outline:none;border-color:#7da5e8;background:#fff;box
     "대학생대회": ["수도권 SFC 겨울대학생대회","충청U 겨울대학생대회","전라권역U & 진주U 겨울대학생대회","대구경북U 겨울청년대학생대회","경동울산U 겨울대학생대회","경남U 겨울대학생대회","김해U 겨울대학생대회","부산&제주U-SFC 학원연합대회","강원U 대학생대회"],
     "중고생대회": ["강원 중고생대회","경남 중고생대회","경남김해 중고생대회","경남남부 중고생대회","경남남마산·경남마산 연합 중고생대회","경남서부 중고생대회","경남중부 중고생대회","경남진주 중고생대회","경북동부 중고생대회","울산·울산남부 연합 중고생대회","경북서부·경북중부·대구동부 연합 중고생대회","대구서부 중고생대회","경기동부·경기중부·인천·경기서부 연합 중고생대회","경기북부 중고생대회","부산 중고생대회","부산남부 중고생대회","부산동부 중고생대회","부산서부 중고생대회","부산중부 중고생대회","서울남부·서울중부 연합 중고생대회","서울서부 중고생대회","전남동부·전라·전북 연합 중고생대회","제주 중고생대회","충청동부·충청서부 연합 중고생대회"]
   };
-  var ITEMS = ["일시","장소","주강사","특강","입회비","담당 간사","Instagram 계정","새 대회 추가","그 밖의 항목"];
+  var ITEMS = ["일시","장소","주강사","특강","입회비","담당 간사","Instagram 계정","기타"];
 
   var F = window.EDIT_FORM || {action:"",entry:{}};
   var ready = !!F.action;
@@ -190,7 +182,7 @@ input:focus,textarea:focus{outline:none;border-color:#7da5e8;background:#fff;box
 
   function validate(){
     var ok = true, first = null;
-    var rules = {type:!!val('type'), event:!!val('event'), items:checkedItems().length>0, content:!!val('content'), status:!!val('status'), name:!!val('name'), org:!!val('org')};
+    var rules = {type:!!val('type'), event:!!val('event'), items:checkedItems().length>0, content:!!val('content'), name:!!val('name'), org:!!val('org')};
     Object.keys(rules).forEach(function(k){
       var q = form.querySelector('.q[data-q='+k+']');
       q.classList.toggle('invalid', !rules[k]);
@@ -212,9 +204,12 @@ input:focus,textarea:focus{outline:none;border-color:#7da5e8;background:#fff;box
     function add(key, v){ if (e[key] && v) body.append(e[key], v); }
     add('type', val('type'));
     add('event', val('event'));
-    checkedItems().forEach(function(v){ add('items', v); });
+    checkedItems().forEach(function(v){
+      // 폼에서 '기타'가 직접입력형 옵션이면 구글폼 형식으로 변환
+      if (v === '기타' && F.otherIsInput && e.items) { body.append(e.items, '__other_option__'); body.append(e.items + '.other_option_response', '기타'); }
+      else add('items', v);
+    });
     add('content', val('content'));
-    add('status', val('status'));
     add('name', val('name'));
     add('org', val('org'));
     add('contact', val('contact'));
